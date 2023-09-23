@@ -73,14 +73,16 @@ char	*parse_and_validate_cmd(char *cmd_str)
 	cmd_split = ft_split(cmd_str, ' ');
 	if (!cmd_split || !cmd_split[0])
 	{
-		write(2, "Invalid command\n", 16);
+		write(2, "\n", 1);
 		return (NULL);
 	}
 
 	valid_path = is_valid_command(cmd_split[0]);
 	if (!valid_path)
 	{
-		write(2, "Invalid command\n", 16);
+		//write(2, "zsh: command not found: ", 16);
+		// ft_printf????
+		printf("zsh: command not found: %s\n", cmd_split[0]);
 		return (NULL);
 	}
 
@@ -94,6 +96,7 @@ void wait_for_children(int *fd)
 	wait(NULL);
 	wait(NULL);
 }
+
 int main(int ac, char **av)
 {
 	int fd[2];
@@ -118,6 +121,7 @@ int main(int ac, char **av)
 	cmd_split2 = ft_split(av[3], ' ');
 
 	pipe(fd);
+// handle pipe error
 	pid = fork();
 	if (pid == 0)
 	{
@@ -125,15 +129,20 @@ int main(int ac, char **av)
 	}
 	else
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			execute_second_command_with_output(fd, valid_path2, cmd_split2, av[4]);
-		}
-		else
-		{
-			wait_for_children(fd);
-		}
+		//pid = fork();
+		//if (pid == 0)
+		//{
+		//	execute_second_command_with_output(fd, valid_path2, cmd_split2, av[4]);
+		//}
+		//else
+		//{
+		//	wait_for_children(fd);
+		//}
+		wait(NULL);
+		execute_second_command_with_output(fd, valid_path2, cmd_split2, av[4]);
+		close(fd[0]); // Close the reading end
+		close(fd[1]); // Close the writing end
+
 	}
 
 	free(valid_path1);

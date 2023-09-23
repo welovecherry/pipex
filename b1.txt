@@ -1,11 +1,1 @@
-a.out
-a1.txt
-a2.txt
-b1.txt
-cat
-ft_split.c
-grep return a1.txt
-libft.c
-ls
-main.c
-pipex.h
+     185
