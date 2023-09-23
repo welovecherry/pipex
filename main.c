@@ -31,72 +31,114 @@ char	*is_valid_command(const char *cmd)
 	return (NULL);
 }
 
-
-int main(int ac, char **av)
+void execute_first_command(int *fd, char *valid_path1, char **cmd_split1, char *file)
 {
-	int fd;
-	pid_t pid;
-	char *valid_path;
-	char **cmd_split;
+	close(fd[0]);
+	dup2(fd[1], 1);
+	close(fd[1]);
+	int file_fd = open(file, O_RDONLY);
+	dup2(file_fd, 0);
+	close(file_fd);
+	execve(valid_path1, cmd_split1, NULL);
+}
 
-	if (ac < 3)
+
+void execute_second_command_with_output(int *fd, char *valid_path2, char **cmd_split2, char *outfile)
+{
+	int out_fd;
+
+	close(fd[1]);
+	dup2(fd[0], 0);
+	close(fd[0]);
+
+	out_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (out_fd < 0)
 	{
-		write(2, "Usage: ./a.out <file> <command> [options]\n", 42);
-		return (1);
+		perror("open");
+		exit(1);
 	}
+	dup2(out_fd, 1);
+	close(out_fd);
 
-	cmd_split = ft_split(av[2], ' ');
+	execve(valid_path2, cmd_split2, NULL);
+}
+
+
+
+char	*parse_and_validate_cmd(char *cmd_str)
+{
+	char	**cmd_split;
+	char	*valid_path;
+
+	cmd_split = ft_split(cmd_str, ' ');
 	if (!cmd_split || !cmd_split[0])
 	{
 		write(2, "Invalid command\n", 16);
-		return (1);
+		return (NULL);
 	}
 
 	valid_path = is_valid_command(cmd_split[0]);
 	if (!valid_path)
 	{
 		write(2, "Invalid command\n", 16);
+		return (NULL);
+	}
+
+	return valid_path;
+}
+
+void wait_for_children(int *fd)
+{
+	close(fd[0]);
+	close(fd[1]);
+	wait(NULL);
+	wait(NULL);
+}
+int main(int ac, char **av)
+{
+	int fd[2];
+	pid_t pid;
+	char *valid_path1;
+	char *valid_path2;
+	char **cmd_split1;
+	char **cmd_split2;
+
+	if (ac < 5)
+	{
+		write(2, "Usage: ./a.out <file> <command1> <command2> <outfile>\n", 55);
 		return (1);
 	}
 
+	valid_path1 = parse_and_validate_cmd(av[2]);
+	valid_path2 = parse_and_validate_cmd(av[3]);
+	if (!valid_path1 || !valid_path2)
+		return (1);
+
+	cmd_split1 = ft_split(av[2], ' ');
+	cmd_split2 = ft_split(av[3], ' ');
+
+	pipe(fd);
 	pid = fork();
-	if (pid < 0)
+	if (pid == 0)
 	{
-		perror("fork");
-		exit(1);
-	}
-	else if (pid == 0)
-	{
-		fd = open(av[1], O_RDONLY);
-		if (fd < 0)
-		{
-			perror("open");
-			exit(1);
-		}
-
-		if (dup2(fd, 0) < 0)
-		{
-			perror("dup2");
-			exit(1);
-		}
-
-		close(fd);
-
-		char *envp[] = {NULL};
-
-		if (execve(valid_path, cmd_split, envp) < 0)
-		{
-			perror("execve");
-			exit(1);
-		}
+		execute_first_command(fd, valid_path1, cmd_split1, av[1]);
 	}
 	else
 	{
-		wait(NULL);
+		pid = fork();
+		if (pid == 0)
+		{
+			execute_second_command_with_output(fd, valid_path2, cmd_split2, av[4]);
+		}
+		else
+		{
+			wait_for_children(fd);
+		}
 	}
 
-	free(valid_path);
-	// Free the cmd_split array
+	free(valid_path1);
+	free(valid_path2);
+	// Free the cmd_split arrays
 	// ...
 
 	return (0);
