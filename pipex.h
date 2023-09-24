@@ -12,24 +12,12 @@
 #define READ 0
 #define WRITE 1
 
-
-
-//typedef struct	s_pipe_data
-//{
-//	int			fd[2];
-//	pid_t		pid;
-//	char		*path1;
-//	char		*path2;
-//	char		**cmd_split1;
-//	char		**cmd_split2;
-//}	t_pipe_data;
-
 typedef struct	s_pipe_data
 {
 	int			fd[2];
 	pid_t		pid;
-	char		*valid_path1;
-	char		*valid_path2;
+	char		*path1;
+	char		*path2;
 	char		**cmd_split1;
 	char		**cmd_split2;
 }				t_pipe_data;
