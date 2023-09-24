@@ -1,9 +1,4 @@
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/wait.h>
+
 #include "pipex.h"
 
 
@@ -51,41 +46,66 @@ char	*validate_cmd_path(char *cmd_str)
 		write(2, "\n", 1);
 		return (NULL);
 	}
-	return valid_path;
+	return (valid_path);
 }
 
-void	execve_first_cmd(int *fd, char *path, char **cmd, char *file)
+//void	execve_first_cmd(int *pipe_fd, char *path, char **cmd, char *file)
+//{
+//	int	infile_fd;  // 변경된 변수명
+
+//	close(pipe_fd[READ]);		// 읽기용 파이프 닫기
+//	dup2(pipe_fd[WRITE], STDOUT_FILENO);	// 쓰기용 파이프 복사
+//	close(pipe_fd[WRITE]);		// 원본 쓰기용 파이프 닫기
+
+//	infile_fd = open(file, O_RDONLY);  // 변경된 변수명
+//	if (infile_fd < 0)  // 파일 열기 실패 처리
+//	{
+//		perror("open");
+//		exit(1);  // 실패시 프로그램 종료
+//	}
+//	dup2(infile_fd, STDIN_FILENO);  // 변경된 변수명
+//	close(infile_fd);  // 변경된 변수명
+//	execve(path, cmd, NULL);
+//}
+
+void	execve_first_cmd(int *pipe_fd, char *path, char **cmd, char *file)
 {
-	int	file_fd;
+	int	infile_fd;  // 변경된 변수명
 
-	close(fd[READ]);	// 읽기용 파이프 닫기
-	dup2(fd[WRITE], STDOUT_FILENO);	// 쓰기용 파이프 복사
-	close(fd[WRITE]);	// 원본 쓰기용 파이프 닫기
+	close(pipe_fd[READ]);		// 읽기용 파이프 닫기
+	dup2(pipe_fd[WRITE], STDOUT_FILENO);	// 쓰기용 파이프를 표준 출력에 복사
+	close(pipe_fd[WRITE]);		// 원본 쓰기용 파이프 닫기
 
-	file_fd = open(file, O_RDONLY);
-	dup2(file_fd, STDIN_FILENO);
-	close(file_fd);
-	execve(path, cmd, NULL);
+	infile_fd = open(file, O_RDONLY);  // 입력 파일을 읽기 전용으로 열기
+	if (infile_fd < 0)  // 파일 열기 실패 시
+	{
+		perror("open");
+		exit(1);  // 프로그램 종료
+	}
+	dup2(infile_fd, STDIN_FILENO);  // 입력 파일 디스크립터를 표준 입력에 복사  // 인파일의 내용을 읽는다! 표준 입력이 아니라!
+	close(infile_fd);  // 원본 입력 파일 디스크립터 닫기
+
+	execve(path, cmd, NULL);  // 새로운 프로세스를 실행
 }
 
-void	execve_second_cmd(int *fd, char *path, char **cmd, char *outfile)
+void	execve_second_cmd(int *pipe_fd, char *path, char **cmd, char *outfile)
 {
 	int	out_fd;
 
-	close(fd[WRITE]);	// 쓰기용 파이프 닫기
+	close(pipe_fd[WRITE]);	// 쓰기용 파이프를 닫는다.
 
 	out_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (out_fd < 0)
+	if (out_fd < 0)  // 파일 열기에 실패하면
 	{
-		exit(1);
+		exit(1);  // 프로그램을 종료한다.
 	}
-	dup2(out_fd, STDOUT_FILENO);
-	close(out_fd);
+	dup2(out_fd, STDOUT_FILENO);  // 출력 파일 디스크립터를 표준 출력에 복사한다.
+	close(out_fd);  // 출력 파일 디스크립터를 닫는다.
 
-	dup2(fd[READ], STDIN_FILENO);	// 읽기용 파이프 복사
-	close(fd[READ]);	// 원본 읽기용 파이프 닫기
+	dup2(pipe_fd[READ], STDIN_FILENO);  // 읽기용 파이프를 표준 입력에 복사한다.
+	close(pipe_fd[READ]);  // 원본 읽기용 파이프를 닫는다.
 
-	execve(path, cmd, NULL);
+	execve(path, cmd, NULL);  // 새로운 프로세스를 실행한다.
 }
 
 
@@ -98,7 +118,7 @@ void	initialize_data(t_pipe_data *data, int ac, char **av)
 	}
 	data->path1 = validate_cmd_path(av[2]);
 	data->path2 = validate_cmd_path(av[3]);
-	if (data->path1 == 0 || data->path2 == 0)
+	if (!data->path1 || !data->path2)
 	{
 		exit(1);
 	}
@@ -127,7 +147,7 @@ void	handle_fork(t_pipe_data *data)
 
 int	main(int ac, char **av)
 {
-	t_pipe_data data;
+	t_pipe_data	data;
 
 	initialize_data(&data, ac, av);
 	handle_pipe(&data);
@@ -138,8 +158,8 @@ int	main(int ac, char **av)
 	{
 		wait(NULL);
 		execve_second_cmd(data.fd, data.path2, data.cmd_split2, av[4]);
-		close(data.fd[READ]);  // Close the reading end
-		close(data.fd[WRITE]); // Close the writing end
+		close(data.fd[READ]);
+		close(data.fd[WRITE]);
 	}
 	free(data.path1);
 	free(data.path2);
