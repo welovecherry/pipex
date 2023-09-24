@@ -15,12 +15,8 @@ char	*is_valid_command(const char *cmd)
 
 	path1 = ft_strjoin("/bin/", cmd);
 	path2 = ft_strjoin("/usr/bin/", cmd);
-
-	// 메모리 할당 체크
 	if (!path1 || !path2)
 		return (NULL);
-
-	// 둘 중 하나가 실행 가능한지 체크
 	if (access(path1, X_OK) == 0)
 	{
 		free(path2);
@@ -31,13 +27,10 @@ char	*is_valid_command(const char *cmd)
 		free(path1);
 		return (path2);
 	}
-
-	// 둘 다 안되면 메모리 해제
 	free(path1);
 	free(path2);
 	return (NULL);
 }
-
 
 char	*validate_cmd_path(char *cmd_str)
 {
@@ -122,21 +115,15 @@ void	handle_pipe(t_pipe_data *data)
 	}
 }
 
-//void handle_fork(t_pipe_data *data, char **av)
-//{
-//	data->pid = fork();
-//	if (data->pid == 0)
-//	{
-//		execve_first_cmd(data->fd, data->path1, data->cmd_split1, av[1]);
-//	}
-//	else
-//	{
-//		wait(NULL);
-//		execve_second_cmd(data->fd, data->path2, data->cmd_split2, av[4]);
-//		close(data->fd[READ]);  // Close the reading end
-//		close(data->fd[WRITE]); // Close the writing end
-//	}
-//}
+void	handle_fork(t_pipe_data *data)
+{
+	data->pid = fork();
+	if (data->pid < 0)
+	{
+		perror("fork");
+		exit (1);
+	}
+}
 
 int	main(int ac, char **av)
 {
@@ -144,12 +131,9 @@ int	main(int ac, char **av)
 
 	initialize_data(&data, ac, av);
 	handle_pipe(&data);
-	//handle_fork(&data, av);
-	data.pid = fork();
+	handle_fork(&data);
 	if (data.pid == 0)
-	{
 		execve_first_cmd(data.fd, data.path1, data.cmd_split1, av[1]);
-	}
 	else
 	{
 		wait(NULL);
@@ -159,6 +143,5 @@ int	main(int ac, char **av)
 	}
 	free(data.path1);
 	free(data.path2);
-
 	return (0);
 }
