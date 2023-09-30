@@ -1,1 +1,12 @@
-     105     261    1754
+      14      14     135
+t_split.c
+k1.txt
+libft.c
+main.c
+main_bonus.c
+multiple_pipe_prac.c
+pipex.h
+pipex_bonus.h
+prac_v2.c
+t1.txt
+test

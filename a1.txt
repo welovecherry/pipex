@@ -1,1 +1,91 @@
-     182
+     105     261    1754
+ (0);
+			ch_cnt = 0;
+			ch_cnt++;
+			ch_cnt++;
+			drawer[d_idx] = assign_box(&ch_cnt, s + s_idx, drawer, d_idx);
+			if (drawer[d_idx++] == 0)
+			num_of_drawer++;
+		(*s_idx)++;
+		(ch_cnt != 0 && s[*s_idx] == '\0'))
+		box[box_idx] = *(s - *ch_cnt + box_idx);
+		box_idx++;
+		else if (s[*s_idx] != c)
+		else if (s[s_idx] != c && s[s_idx] != '\0')
+		free(drawer[i]);
+		free_all(drawer, d_idx);
+		i++;
+		if ((ch_cnt != 0 && s[*s_idx] == c) || \
+		if ((ch_cnt != 0 && s[s_idx] == c) || (ch_cnt != 0 && s[s_idx] == '\0'))
+		return (0);
+		return (0);
+		return (0);
+		s_idx++;
+		{
+		{
+		}
+		}
+	*ch_cnt = 0;
+	*d_idx = 0;
+	*s_idx = 0;
+	*s_idx = 0;
+	box = (char *)malloc(sizeof(char) * (*ch_cnt + 1));
+	box[box_idx] = '\0';
+	box_idx = 0;
+	ch_cnt = 0;
+	ch_cnt = 0;
+	char	**drawer;
+	char	**drawer;
+	char	*box;
+	drawer = (char **)malloc(sizeof(char *) * (num_of_drawer + 1));
+	drawer = assign_drawer(num_of_drawer);
+	drawer[d_idx] = 0;
+	free(drawer);
+	i = 0;
+	if (!box)
+	if (!drawer)
+	if (!drawer)
+	num_of_drawer = 0;
+	num_of_drawer = get_num_of_drawer(s, c, &s_idx, &d_idx);
+	return (box);
+	return (drawer);
+	return (drawer);
+	return (num_of_drawer);
+	size_t	box_idx;
+	size_t	ch_cnt;
+	size_t	ch_cnt;
+	size_t	d_idx;
+	size_t	i;
+	size_t	num_of_drawer;
+	size_t	num_of_drawer;
+	size_t	s_idx;
+	while (*s_idx < (ft_strlen(s) + 1))
+	while (box_idx < *ch_cnt)
+	while (i < d_idx)
+	while (s_idx < (ft_strlen(s) + 1))
+	{
+	{
+	{
+	{
+	{
+	}
+	}
+	}
+	}
+	}
+#include "pipex.h" 
+char	**assign_drawer(size_t num_of_drawer)
+char	**ft_split(char *s, char c)
+char	*assign_box(size_t *ch_cnt, char *s, char **drawer, size_t d_idx)
+size_t	get_num_of_drawer(char const *s, char c, size_t *s_idx, size_t *d_idx)
+void	free_all(char **drawer, size_t d_idx)
+{
+{
+{
+{
+{
+}
+}
+}
+}
+}

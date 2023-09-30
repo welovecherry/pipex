@@ -14,7 +14,7 @@
 
 typedef struct	s_pipe_data
 {
-	int			fd[2];
+	int			pipe_fd[2];
 	pid_t		pid;
 	char		*path1;
 	char		*path2;
