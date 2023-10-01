@@ -74,3 +74,21 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(return_ptr, s2, s1_len + s2_len + 1);
 	return (return_ptr);
 }
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	unsigned char	*u_s1;
+	unsigned char	*u_s2;
+	int				i;
+
+	u_s1 = (unsigned char *)s1;
+	u_s2 = (unsigned char *)s2;
+	i = 0;
+	while (u_s1[i] != '\0' && u_s2[i] != '\0')
+	{
+		if (u_s1[i] != u_s2[i])
+			break ;
+		i++;
+	}
+	return (u_s1[i] - u_s2[i]);
+}

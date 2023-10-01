@@ -24,6 +24,7 @@ typedef struct	s_pipe_data
 char	**ft_split(char *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
+int	ft_strcmp(char *s1, char *s2);
 
 //void create_and_wait_for_children(int *pipefd, char **av);
 //void execute_shell_cmd(int *pipefd, char *command);

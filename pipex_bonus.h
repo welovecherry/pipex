@@ -25,6 +25,7 @@ typedef struct	s_pipe_data
 
 char	**ft_split(char *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
+int	ft_strcmp(char *s1, char *s2);
 
 
 #endif
