@@ -24,21 +24,29 @@
 //	return (NULL);
 //}
 
-
-//char *validate_cmd_path(char **cmd_str_array)
+//char	*validate_cmd_path(char *cmd_str)
 //{
-//	char *valid_path;
+//	char	**cmd_split;
+//	char	*valid_path;
 
-//	if (!cmd_str_array || !cmd_str_array[0])
+//	cmd_split = ft_split(cmd_str, ' ');
+//	if (!cmd_split || !cmd_split[0])
+//		return (NULL);
+//	if (cmd_str[0] == '\0') // Check if input is empty string
 //	{
-//		write(2, "zsh: command not found:\n", 24);
+//		write(2, "zsh: permission denied: \n", 25);
 //		return (NULL);
 //	}
-//	valid_path = is_valid_command(cmd_str_array[0]);
+//	if (ft_strcmp(cmd_str, " ") == 0) // Check if input is space only
+//	{
+//		write(2, "zsh: command not found: \n", 25);
+//		return (NULL);
+//	}
+//	valid_path = is_valid_command(cmd_split[0]);
 //	if (!valid_path)
 //	{
 //		write(2, "zsh: command not found: ", 24);
-//		write(2, cmd_str_array[0], ft_strlen(cmd_str_array[0]));
+//		write(2, cmd_split[0], ft_strlen(cmd_split[0]));
 //		write(2, "\n", 1);
 //		return (NULL);
 //	}
