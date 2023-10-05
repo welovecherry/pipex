@@ -1,13 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/05 15:40:25 by jungmiho          #+#    #+#             */
+/*   Updated: 2023/10/05 21:54:38 by jungmiho         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PIPEX_H
 # define PIPEX_H
 
-#include <unistd.h> // execve, access, dup2, close
-#include <stdio.h>  // printf
-#include <stdlib.h> // malloc, free
-#include <string.h> // strlen
-#include <fcntl.h>  // open
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
 #include <sys/wait.h>
-#include <stdarg.h>
 
 #define READ 0
 #define WRITE 1
@@ -22,10 +32,10 @@ typedef struct	s_pipe_data
 	char		**cmd_split2;
 }	t_pipe_data;
 
-
 char	**ft_split(char *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
-int	ft_strcmp(char *s1, char *s2);
-
+size_t	ft_strlen(const char *s);
+int		ft_strcmp(char *s1, char *s2);
+void	free_split_array(char **arr);
 
 #endif
