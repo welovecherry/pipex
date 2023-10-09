@@ -5,7 +5,6 @@ handle_cmd.c
 handle_cmd.o
 handle_exeve.c
 handle_exeve.o
-k1.txt
 libft.c
 libft.o
 main.c

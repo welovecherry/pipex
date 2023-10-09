@@ -6,21 +6,182 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:38:08 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/10/09 18:51:08 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/10/09 22:19:34 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
+//char *validate_cmd_path_bonus(char **cmd_str_array)
+//{
+//	char *valid_path;
+
+//	if (!cmd_str_array || !cmd_str_array[0])
+//	{
+//		write(2, "zsh: command not found:\n", 24);
+//		return (NULL);
+//	}
+//	valid_path = is_valid_command(cmd_str_array[0]);
+//	if (!valid_path)
+//	{
+//		write(2, "zsh: command not found: ", 24);
+//		write(2, cmd_str_array[0], ft_strlen(cmd_str_array[0]));
+//		write(2, "\n", 1);
+//		return (NULL);
+//	}
+//	return (valid_path);
+//}
+
+//char *validate_cmd_path_bonus(char **cmd_str_array)
+//{
+//	char *valid_path;
+
+//	if (!cmd_str_array[0])
+//	{
+//		if (cmd_str_array[0][0] == '\0')  // Check for empty command string
+//		{
+//			write(2, "zsh: permission denied: \n", 25);
+//			//return (NULL);
+//		}
+//		else
+//			write(2, "zsh: command not found:\n", 24);
+//		return (NULL);
+//	}
+//	valid_path = is_valid_command(cmd_str_array[0]);
+//	if (!valid_path)
+//	{
+//		write(2, "zsh: command not found: ", 24);
+//		write(2, cmd_str_array[0], ft_strlen(cmd_str_array[0]));
+//		write(2, "\n", 1);
+//		return (NULL);
+//	}
+//	return (valid_path);
+//}
+
+
+//char *validate_cmd_path_bonus(char **cmd_str_array)
+//{
+//	char *valid_path;
+
+//	if (!cmd_str_array || !cmd_str_array[0])
+//	{
+//		write(2, "zsh: command not found: \n", 25);
+//		return (NULL);
+//	}
+//	if (cmd_str_array[0][0] == '\0')  // Check for empty command string
+//	{
+//		write(2, "zsh: permission denied: \n", 25);
+//		return (NULL);
+//	}
+//	valid_path = is_valid_command(cmd_str_array[0]);
+//	if (!valid_path)
+//	{
+//		write(2, "zsh: command not found: ", 24);
+//		write(2, cmd_str_array[0], ft_strlen(cmd_str_array[0]));
+//		write(2, "\n", 1);
+//		return (NULL);
+//	}
+//	return (valid_path);
+//}
+
+//char *validate_cmd_path_bonus(char **cmd_str_array)
+//{
+//	char *valid_path;
+
+//	if (!cmd_str_array )
+//	{
+//		write(2, "00", 2);
+//		return NULL;
+//	}
+
+//	if (!cmd_str_array[0])
+//	{
+//		write(2, "11", 2);
+//		write(2, "zsh: command not found: \n", 25);
+//		return (NULL);
+//	}
+//	if (cmd_str_array[0][0] == '\0')  // Check for empty command string
+//	{
+//		write(2, "22", 2);
+
+//		write(2, "zsh: permission denied: ''\n", 27);
+//		return (NULL);
+//	}
+//	if (cmd_str_array[0][0] == ' ' && cmd_str_array[0][1] == '\0')  // Check for command string with a single space
+//	{
+//		write(2, "33", 2);
+//		write(2, "zsh: command not found: ''\n", 27);
+//		return (NULL);
+//	}
+//	valid_path = is_valid_command(cmd_str_array[0]);
+//	if (!valid_path)
+//	{
+//		write(2, "44", 2);
+//		write(2, "zsh: command not found: ", 24);
+//		write(2, cmd_str_array[0], ft_strlen(cmd_str_array[0]));
+//		write(2, "\n", 1);
+//		return (NULL);
+//	}
+//	return (valid_path);
+//}
+
+//char *validate_cmd_path_bonus(char **cmd_str_array)
+//{
+//    char *valid_path;
+
+//    if (!cmd_str_array)
+//    {
+//        write(2, "zsh: command not found: \n", 25);
+//        return NULL;
+//    }
+
+//    if (cmd_str_array[0] == NULL || cmd_str_array[0][0] == '\0')  // Check for NULL or empty command string
+//    {
+//        write(2, "zsh: permission denied: ''\n", 27);
+//        return (NULL);
+//    }
+
+//    if (cmd_str_array[0][0] == ' ' && cmd_str_array[0][1] == '\0')  // Check for command string with a single space
+//    {
+//        write(2, "zsh: command not found: ''\n", 27);
+//        return (NULL);
+//    }
+
+//    valid_path = is_valid_command(cmd_str_array[0]);
+//    if (!valid_path)
+//    {
+//        write(2, "zsh: command not found: ", 24);
+//        write(2, cmd_str_array[0], ft_strlen(cmd_str_array[0]));
+//        write(2, "\n", 1);
+//        return (NULL);
+//    }
+//    return (valid_path);
+//}
+
 char *validate_cmd_path_bonus(char **cmd_str_array)
 {
 	char *valid_path;
 
-	if (!cmd_str_array || !cmd_str_array[0])
+	if (!cmd_str_array)
 	{
-		write(2, "zsh: command not found:\n", 24);
+		write(2, "zsh: command not found: \n", 25);
+		return NULL;
+	}
+
+	// Check for empty command string
+	if (cmd_str_array[0] && cmd_str_array[0][0] == '\0')
+	{
+		write(2, "zsh: permission denied: ''\n", 27);
 		return (NULL);
 	}
+
+	// Check for command string with a single space
+	if (cmd_str_array[0] && cmd_str_array[0][0] == ' ' && cmd_str_array[0][1] == '\0')
+	{
+		write(2, "zsh: command not found: ''\n", 27);
+		return (NULL);
+	}
+
 	valid_path = is_valid_command(cmd_str_array[0]);
 	if (!valid_path)
 	{
@@ -32,97 +193,130 @@ char *validate_cmd_path_bonus(char **cmd_str_array)
 	return (valid_path);
 }
 
-int main(int argc, char *argv[])
-{
 
-	if (argc < 6)
-	{
-		write(2, "Invalid ac\n", 11);
-		exit(1);
-	}
-	
-	int infile = open(argv[1], O_RDONLY);
-	int outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	int num_cmds = argc - 3;
-	int pipes[num_cmds - 1][2];
-	pid_t pids[num_cmds];
-	
+
+void initialize_data(t_pipe_data *data, int ac, char *av[])
+{
+	data->infile = open(av[1], O_RDONLY);
+	data->outfile = open(av[ac - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	data->num_cmds = ac - 3;
+	data->pids = malloc(data->num_cmds * sizeof(pid_t));
+	data->valid_paths = malloc(data->num_cmds * sizeof(char *));
+	data->cmd_str_arrays = malloc(data->num_cmds * sizeof(char **));
+}
+
+void initialize_pipes(t_pipe_data *data)
+{
 	int i = 0;
-	// 파이프 생성
-	while (i < num_cmds - 1)
+
+	data->pipes = malloc((data->num_cmds - 1) * sizeof(int *));
+	while (i < data->num_cmds - 1)
 	{
-		if (pipe(pipes[i]) == -1)
+		data->pipes[i] = malloc(2 * sizeof(int));
+		if (pipe(data->pipes[i]) == -1)
 		{
 			perror("pipe");
 			exit(1);
 		}
 		i++;
 	}
+}
 
-	// 자식 프로세스 생성 및 명령어 실행
-	i = 0;
-	while (i < num_cmds)
+void close_and_free(t_pipe_data *data)
+{
+	int i = 0;
+
+	while (i < data->num_cmds - 1)
 	{
-		pids[i] = fork();
-		if (pids[i] == 0)
+		close(data->pipes[i][0]);
+		close(data->pipes[i][1]);
+		free(data->pipes[i]);
+		i++;
+	}
+	free(data->pipes);
+	free(data->pids);
+	free(data->valid_paths);
+	free(data->cmd_str_arrays);
+	close(data->infile);
+	close(data->outfile);
+}
+
+
+void handle_redirections(t_pipe_data *data, int i)
+{
+	if (i == 0)  // First command: read from input file
+	{
+		dup2(data->infile, STDIN_FILENO);
+	}
+	else  // Not the first command: read from the previous command's pipe
+	{
+		dup2(data->pipes[i - 1][0], STDIN_FILENO);
+	}
+
+	if (i == data->num_cmds - 1)  // Last command: write to output file
+	{
+		dup2(data->outfile, STDOUT_FILENO);
+	}
+	else  // Not the last command: write to the next command's pipe
+	{
+		dup2(data->pipes[i][1], STDOUT_FILENO);
+	}
+}
+
+void close_all_pipes(t_pipe_data *data)
+{
+	int i;
+	
+	i = 0;
+	while (i < data->num_cmds - 1)
+	{
+		close(data->pipes[i][0]);
+		close(data->pipes[i][1]);
+		i++;
+	}
+}
+
+void execute_command(t_pipe_data *data, char **av, int i)
+{
+	data->cmd_str_arrays[i] = ft_split(av[i + 2], ' ');
+	data->valid_paths[i] = validate_cmd_path_bonus(data->cmd_str_arrays[i]);
+
+	if (data->valid_paths[i])
+	{
+		if (execve(data->valid_paths[i], data->cmd_str_arrays[i], NULL) == -1)
 		{
-			// 첫 번째 명령어일 경우 입력 파일로부터 읽기
-			if (i == 0)
-			{
-				dup2(infile, STDIN_FILENO);
-			}
-
-			// 마지막 명령어일 경우 출력 파일에 쓰기
-			if (i == num_cmds - 1)
-			{
-				dup2(outfile, STDOUT_FILENO);
-			}
-
-			// 중간 명령어의 경우
-			else
-			{
-				dup2(pipes[i][1], STDOUT_FILENO);
-			}
-
-			if (i != 0)
-			{
-				dup2(pipes[i-1][0], STDIN_FILENO);
-			}
-
-			int j = 0;
-			while (j < num_cmds - 1)
-			{
-				close(pipes[j][0]);
-				close(pipes[j][1]);
-				j++;
-			}
-
-			// 명령어 유효성 검사 및 실행
-			char **cmd_str_array = ft_split(argv[i + 2], ' ');
-			char *valid_path = validate_cmd_path_bonus(cmd_str_array);
-
-			if (valid_path)
-			{
-				execve(valid_path, cmd_str_array, NULL);
-				free(valid_path);
-			}
 			perror("execve");
 			exit(1);
 		}
-		i++;
+		free(data->valid_paths[i]);
 	}
-	// 모든 자식 프로세스가 종료될 때까지 대기
-	waitpid(-1, NULL, 0);
+}
+
+int main(int ac, char **av)
+{
+	t_pipe_data data;
+	int			i;
 	
-	// 부모 프로세스: 모든 파이프 닫기
-	i = 0;
-	while (i < num_cmds - 1)
+	if (ac < 6)
 	{
-		close(pipes[i][0]);
-		close(pipes[i][1]);
+		write(2, "Invalid ac\n", 11);
+		exit(1);
+	}
+	initialize_data(&data, ac, av);
+	initialize_pipes(&data);
+	i = 0;
+	while (i < data.num_cmds)
+	{
+		data.pids[i] = fork();
+		if (data.pids[i] == 0)  // Child process
+		{
+			handle_redirections(&data, i);
+			close_all_pipes(&data);
+			execute_command(&data, av, i);
+		}
 		i++;
 	}
-	close(infile);
-	close(outfile);
+	waitpid(-1, NULL, 0);
+	close_and_free(&data);
 	return 0;
 }
