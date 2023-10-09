@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:37:43 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/10/05 22:53:49 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/10/09 18:10:49 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,10 @@ void	handle_fork(t_pipe_data *data)
 	}
 }
 
-void	free_split_array(char **arr)
-{
-	int i = 0;
-
-	while (arr[i] != NULL)
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
-//void	leak_check()
-//{
-//	system("leaks ./pipex");
-//}
-
 int	main(int ac, char **av)
 {
 	t_pipe_data	data;
 
-	//atexit(leak_check);
 	initialize_data(&data, ac, av);
 	handle_pipe(&data);
 	handle_fork(&data);

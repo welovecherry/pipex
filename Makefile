@@ -6,11 +6,9 @@
 #    By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/05 21:19:38 by jungmiho          #+#    #+#              #
-#    Updated: 2023/10/05 22:53:10 by jungmiho         ###   ########.fr        #
+#    Updated: 2023/10/08 21:26:02 by jungmiho         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-
 
 # 프로그램 이름
 NAME = pipex
@@ -21,20 +19,31 @@ CFLAGS = -Wall -Wextra -Werror
 
 # 디버깅 옵션 추가
 ifdef DEBUG
-	CFLAGS += -g -O0 -fsanitize=address,undefined
+	CFLAGS += -g -O0
 else
 	CFLAGS += -O2
 endif
 
 # 일반 소스파일
-SRCS = ft_split.c libft.c handle_cmd.c handle_exeve.c
+#SRCS = ft_split.c libft.c handle_cmd.c handle_exeve.c
+
+
+# 일반 소스파일
+SRCS_COMMON = ft_split.c libft.c handle_cmd.c handle_exeve.c
 
 # 보너스 활성화 여부에 따라 main 파일 선택
 ifdef BONUS
-	SRCS += main_bonus.c
+	SRCS = $(SRCS_COMMON) main_bonus.c
 else
-	SRCS += main.c
+	SRCS = $(SRCS_COMMON) main.c
 endif
+
+# 보너스 활성화 여부에 따라 main 파일 선택
+#ifdef BONUS
+#	SRCS += main_bonus.c
+#else
+#	SRCS += main.c
+#endif
 
 # 오브젝트 파일
 OBJS = $(SRCS:.c=.o)
@@ -54,8 +63,11 @@ $(NAME) : $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 # 오브젝트 파일과 의존성 파일 삭제
+#clean:
+#	rm -f $(OBJS) 
+
 clean:
-	rm -f $(OBJS)
+	rm -f $(SRCS_COMMON:.c=.o) main.o main_bonus.o
 
 # 모든 파일 삭제
 fclean : clean

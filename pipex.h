@@ -6,7 +6,7 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:43 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/10/05 22:52:47 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/10/08 18:18:13 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ char	*validate_cmd_path(char *cmd_str);
 void	free_split_array(char **arr);
 void	execve_first_cmd(int *pipe_fd, char *path, char **cmd, char *file);
 void	execve_second_cmd(int *pipe_fd, char *path, char **cmd, char *outfile);
+void	free_split_array(char **arr);
 
 #endif

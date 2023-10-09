@@ -6,12 +6,12 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:40:25 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/10/05 21:54:38 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/10/09 18:46:57 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 #include <unistd.h>
 #include <stdio.h>
@@ -36,6 +36,8 @@ char	**ft_split(char *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 int		ft_strcmp(char *s1, char *s2);
+char	*is_valid_command(const char *cmd);
+char	*validate_cmd_path(char *cmd_str);
 void	free_split_array(char **arr);
 
 #endif

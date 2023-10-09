@@ -6,37 +6,13 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 15:38:08 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/10/05 22:47:34 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/10/09 18:51:08 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-char	*is_valid_command(const char *cmd)
-{
-	char	*path1;
-	char	*path2;
-
-	path1 = ft_strjoin("/bin/", cmd);
-	path2 = ft_strjoin("/usr/bin/", cmd);
-	if (!path1 || !path2)
-		return (NULL);
-	if (access(path1, X_OK) == 0)
-	{
-		free(path2);
-		return (path1);
-	}
-	else if (access(path2, X_OK) == 0)
-	{
-		free(path1);
-		return (path2);
-	}
-	free(path1);
-	free(path2);
-	return (NULL);
-}
-
-char *validate_cmd_path(char **cmd_str_array)
+char *validate_cmd_path_bonus(char **cmd_str_array)
 {
 	char *valid_path;
 
@@ -59,21 +35,19 @@ char *validate_cmd_path(char **cmd_str_array)
 int main(int argc, char *argv[])
 {
 
-	if (argc < 6)  // We need at least one command and an infile and outfile
+	if (argc < 6)
 	{
 		write(2, "Invalid ac\n", 11);
 		exit(1);
 	}
 	
-	int infile = open(argv[1], O_RDONLY); // 첫번째 인자는 입력 파일
-	int outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0666); // 마지막 인자는 출력 파일
-
-	int num_cmds = argc - 3; // 명령어의 개수
-	int pipes[num_cmds - 1][2]; // 파이프 배열
-	pid_t pids[num_cmds]; // 프로세스 ID를 저장할 배열
-
+	int infile = open(argv[1], O_RDONLY);
+	int outfile = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	int num_cmds = argc - 3;
+	int pipes[num_cmds - 1][2];
+	pid_t pids[num_cmds];
+	
 	int i = 0;
-
 	// 파이프 생성
 	while (i < num_cmds - 1)
 	{
@@ -125,7 +99,7 @@ int main(int argc, char *argv[])
 
 			// 명령어 유효성 검사 및 실행
 			char **cmd_str_array = ft_split(argv[i + 2], ' ');
-			char *valid_path = validate_cmd_path(cmd_str_array);
+			char *valid_path = validate_cmd_path_bonus(cmd_str_array);
 
 			if (valid_path)
 			{
@@ -148,10 +122,7 @@ int main(int argc, char *argv[])
 		close(pipes[i][1]);
 		i++;
 	}
-
-
 	close(infile);
 	close(outfile);
-
 	return 0;
 }

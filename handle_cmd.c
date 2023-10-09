@@ -6,11 +6,23 @@
 /*   By: jungmiho <jungmiho@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 22:49:20 by jungmiho          #+#    #+#             */
-/*   Updated: 2023/10/05 22:49:46 by jungmiho         ###   ########.fr       */
+/*   Updated: 2023/10/08 19:54:57 by jungmiho         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+void	free_split_array(char **arr)
+{
+	int i = 0;
+
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
 
 char	*is_valid_command(const char *cmd)
 {
@@ -44,7 +56,7 @@ char	*validate_cmd_path(char *cmd_str)
 	cmd_split = ft_split(cmd_str, ' ');
 	if (!cmd_split)
 		return (NULL);
-	if (!cmd_split[0] || cmd_split[0][0] == '\0') // Check if split result is NULL or empty string
+	if (!cmd_split[0])
 	{
 		if (cmd_str[0] == '\0') // Check if input is empty string
 			write(2, "zsh: permission denied: \n", 25);
