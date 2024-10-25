@@ -1,7 +1,0 @@
-a.out
-a.txt
-ft_printf.c
-ft_split.c
-libft.c
-main.c
-pipex.h
