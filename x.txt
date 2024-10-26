@@ -1,7 +1,0 @@
-a.out
-ft_split.c
-libft.c
-main.c
-main_bonus.c
-pipex.h
-pipex_bonus.h
