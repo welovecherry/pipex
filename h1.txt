@@ -1,8 +1,0 @@
-	return (num_of_drawer);
-		return (0);
-	return (drawer);
-		return (0);
-	return (box);
-		return (0);
-				return (0);
-	return (drawer);
